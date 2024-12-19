@@ -1,0 +1,15 @@
+elephant
+monkeys
+cheetah
+giraffe
+penguin
+turtles
+tortoise
+squirrel
+dolphin
+capybara
+ostrich
+peacock
+chicken
+cricket
+spiders
