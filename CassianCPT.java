@@ -1,6 +1,10 @@
 import arc.*;
 import java.awt.*;
 import java.awt.image.*;
+//Name: Cassian
+//Program Name: CassianCPT.java
+//Program Use: Hangman game
+//Date: 21, Janurary 2025
 
 public class CassianCPT { // Added 'class' keyword
     public static void main(String[] args) {
@@ -10,18 +14,30 @@ public class CassianCPT { // Added 'class' keyword
         
 		        
         //Creating and initializing variables
+        //Main menu
 		char chrChoice;
         chrChoice = 'b';
         
+        //Themes
         int intTheme;
         intTheme = 0;
         
+        //Names
         String strName;
         strName = "";
         
-        int intRandTheme;
-        intRandTheme = 0;
+        //Bubble sort
+        int intRow;
+        int intRow2;
+        int intRandom;
+        int intWordCount = 0;
+        String strTempWord;
+        strTempWord = "";
         
+        //Array names
+        String strWord[][];
+                
+        //Game running
         boolean boolRunning;
         boolRunning = true;
         
@@ -71,7 +87,34 @@ public class CassianCPT { // Added 'class' keyword
 				if(intTheme == 1){
 					System.out.println("Holidays");
 					con.println("You picked: Holidays");
-					System.out.println("hi");
+					
+					//Creating array
+					TextInputFile holidays = new TextInputFile("holidays.txt");
+					while (holidays.eof() == false){
+						intWordCount++;
+					}
+					holidays.close();
+					strWord = new String[intWordCount][2];
+
+					
+					for(intRow2 = 0; intRow2 < 10-1; intRow2++){		
+						for(intRow = 0; intRow < 10 - 1; intRow++){
+							//Checking to see if the left is larger than that on the right
+							if(Integer.parseInt(strWord[intRow][1]) > Integer.parseInt(strWord[intRow + 1][1])){
+								//Take the left item
+								intRandom = strWord[intRow][0];
+								strTempWord = strWord[intRow][1];
+								
+								//Right item moves to the left
+								strWord[intRow][0] = strWord[intRow + 1][0];
+								strWord[intRow][1] = strWord[intRow + 1][1];
+								
+								//Move the left item to the right (the temporary item)
+								strWord[intRow + 1][0] = intRandom;
+								strWord[intRow + 1][1] = strTempWord;
+							}			
+						}
+					}
 				}else if(intTheme == 2){
 					System.out.println("City Names");
 					con.println("You picked: City Names");
