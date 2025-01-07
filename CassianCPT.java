@@ -1,10 +1,13 @@
+//-------------------------------------------
+//Name: CassianCPT
+//Purpose: Play hangman
+//Author: Cassian
+//Created: 19/12/2024
+//-------------------------------------------
 import arc.*;
 import java.awt.*;
 import java.awt.image.*;
-//Name: Cassian
-//Program Name: CassianCPT.java
-//Program Use: Hangman game
-//Date: 21, Janurary 2025
+
 
 public class CassianCPT { // Added 'class' keyword
     public static void main(String[] args) {
@@ -19,8 +22,8 @@ public class CassianCPT { // Added 'class' keyword
         chrChoice = 'b';
         
         //Themes
-        int intTheme;
-        intTheme = 0;
+        char chrTheme;
+        chrTheme = 0;
         
         //Names
         String strName;
@@ -31,8 +34,13 @@ public class CassianCPT { // Added 'class' keyword
         int intRow2;
         int intRandom;
         int intWordCount = 0;
+        int intEnd;
+        String strBurn;
+        intEnd = 0;
         String strTempWord;
         strTempWord = "";
+        String strTempNum;
+        String strFileName;
         
         //Array names
         String strWord[][];
@@ -55,8 +63,7 @@ public class CassianCPT { // Added 'class' keyword
 				con.println("HELP (H)");
 				con.println("SCOREBOARD (S)");
 				con.println("QUIT (Q)");
-				con.print("PLAYER OPTION: ");
-				chrChoice = con.readChar();
+				chrChoice = con.getChar();
 			}
 			
 			//Chceking to see if user wants to play
@@ -69,40 +76,36 @@ public class CassianCPT { // Added 'class' keyword
 				
 				//Clearing any previously ran code and theme options
 				con.println("					     PICK A THEME");
+				//Asking user for username
+				con.print("Username: ");
+				strName = con.readLine();				
 				con.println("(1) Holidays");
 				con.println("(2) City Names");
 				con.println("(3) Food");
 				con.println("(4) Video Games");
 				con.println("(5) Animals");
+				chrTheme = con.getChar();
 				
-				//Allowing user to enter theme they want based on numbers
-				con.print("Theme Picked: ");
-				intTheme = con.readInt();
-				
-				//Asking user for username
-				con.print("Username: ");
-				strName = con.readLine();
-				
+							
 				//Seeing what theme they picked and printing it to terminal window before shuffeling
-				if(intTheme == 1){
-					System.out.println("Holidays");
+				if(chrTheme == '1'){
 					con.println("You picked: Holidays");
-					
+					System.out.println("Holidays");
+					strFileName = "holidays.txt";
+										
 					//Creating array
-					TextInputFile holidays = new TextInputFile("holidays.txt");
-					while (holidays.eof() == false){
-						intWordCount++;
-					}
-					holidays.close();
-					strWord = new String[intWordCount][2];
-
+					intWordCount = CPTTools.lengthTxt(strFileName);
+					System.out.println(intWordCount);
 					
-					for(intRow2 = 0; intRow2 < 10-1; intRow2++){		
-						for(intRow = 0; intRow < 10 - 1; intRow++){
+					strWord = new String[intWordCount][2];
+					
+					//Getting random number
+					for(intRow2 = 0; intRow2 < intEnd-1; intRow2++){		
+						for(intRow = 0; intRow < intEnd-1-intRow2; intRow++){
 							//Checking to see if the left is larger than that on the right
 							if(Integer.parseInt(strWord[intRow][1]) > Integer.parseInt(strWord[intRow + 1][1])){
 								//Take the left item
-								intRandom = strWord[intRow][0];
+								strTempNum = strWord[intRow][0];
 								strTempWord = strWord[intRow][1];
 								
 								//Right item moves to the left
@@ -110,21 +113,23 @@ public class CassianCPT { // Added 'class' keyword
 								strWord[intRow][1] = strWord[intRow + 1][1];
 								
 								//Move the left item to the right (the temporary item)
-								strWord[intRow + 1][0] = intRandom;
+								strWord[intRow + 1][0] = strTempNum;
 								strWord[intRow + 1][1] = strTempWord;
 							}			
 						}
 					}
-				}else if(intTheme == 2){
+										//con.println(chrTheme);
+
+				}else if(chrTheme == '2'){
 					System.out.println("City Names");
 					con.println("You picked: City Names");
-				}else if(intTheme == 3){
+				}else if(chrTheme == '3'){
 					System.out.println("Food");
 					con.println("You picked: Food");
-				}else if(intTheme == 4){
+				}else if(chrTheme == '4'){
 					System.out.println("Video Games");
 					con.println("You picked: Video Games");
-				}else{
+				}else if (chrTheme == '5'){
 					System.out.println("Animals");
 					con.println("You picked: Animals");
 				}
@@ -154,7 +159,7 @@ public class CassianCPT { // Added 'class' keyword
 				
 				//Allowing user to go home
 				con.print("To go home, press B. ");
-				chrChoice = con.readChar();
+				chrChoice = con.getChar();
 				
 				//Making boolRunning true to have game play continue
 				boolRunning = true;
@@ -197,7 +202,7 @@ public class CassianCPT { // Added 'class' keyword
 				
 				//Asking user if they want to go back home
 				con.print("To go back home, press B. ");
-				chrChoice = con.readChar();
+				chrChoice = con.getChar();
 				
 				//Making boolRunning true to have game play continue
 				boolRunning = true;
@@ -224,6 +229,6 @@ public class CassianCPT { // Added 'class' keyword
 			}
 			
 		}
-	con.clear();
+	//con.clear();
     }
 }
