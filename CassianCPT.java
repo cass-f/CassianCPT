@@ -13,9 +13,8 @@ public class CassianCPT { // Added 'class' keyword
     public static void main(String[] args) {
         Console con = new Console("Hangman", 1280, 780);
         
-        con.setTextColor(Color.WHITE);
+        con.setTextColor(Color.RED);
         
-		        
         //Creating and initializing variables
         //Main menu
 		char chrChoice;
@@ -31,12 +30,12 @@ public class CassianCPT { // Added 'class' keyword
         
         //Bubble sort
         int intRow;
+        intRow = 0;
         int intRow2;
         int intRandom;
         int intWordCount = 0;
-        int intEnd;
+        int intRand;
         String strBurn;
-        intEnd = 0;
         String strTempWord;
         strTempWord = "";
         String strTempNum;
@@ -92,33 +91,53 @@ public class CassianCPT { // Added 'class' keyword
 					con.println("You picked: Holidays");
 					System.out.println("Holidays");
 					strFileName = "holidays.txt";
-										
+						
 					//Creating array
 					intWordCount = CPTTools.lengthTxt(strFileName);
 					System.out.println(intWordCount);
 					
 					strWord = new String[intWordCount][2];
 					
+					//Filling the array with the text from file
+					TextInputFile themes = new TextInputFile("holidays.txt");
+					while(themes.eof() == false){
+						strWord[intRow][0] = themes.readLine();
+						System.out.println(strWord[intRow][0]);
+						intRow++;
+					}
+					//Generating a random number for the theme
+					for(intRow = 0; intRow < intWordCount; intRow++){
+						strWord[intRow][1] = Integer.toString((int)(Math.random()*100 + 0));
+					}
+					
+					//Printing out the word and random number before bubble sort					
+					for(intRow = 0; intRow < intWordCount; intRow++){
+						System.out.println("before: " + strWord[intRow][0] + "	|	" + strWord[intRow][1]);
+					}
+					
 					//Getting random number
-					for(intRow2 = 0; intRow2 < intEnd-1; intRow2++){		
-						for(intRow = 0; intRow < intEnd-1-intRow2; intRow++){
-							//Checking to see if the left is larger than that on the right
-							if(Integer.parseInt(strWord[intRow][1]) > Integer.parseInt(strWord[intRow + 1][1])){
+					for(intRow2 = 0; intRow2 < intWordCount; intRow2++){		
+						for(intRow = 1; intRow < intWordCount; intRow++){
+							//Checking to see if the left is smaller than that on the right
+							if(Integer.parseInt(strWord[intRow][1]) < Integer.parseInt(strWord[intRow - 1][1])){
 								//Take the left item
-								strTempNum = strWord[intRow][0];
-								strTempWord = strWord[intRow][1];
+								strTempNum = strWord[intRow][1];
+								strTempWord = strWord[intRow][0];
 								
 								//Right item moves to the left
-								strWord[intRow][0] = strWord[intRow + 1][0];
-								strWord[intRow][1] = strWord[intRow + 1][1];
+								strWord[intRow][0] = strWord[intRow - 1][0];
+								strWord[intRow][1] = strWord[intRow - 1][1];
 								
 								//Move the left item to the right (the temporary item)
-								strWord[intRow + 1][0] = strTempNum;
-								strWord[intRow + 1][1] = strTempWord;
-							}			
+								strWord[intRow - 1][1] = strTempNum;
+								strWord[intRow - 1][0] = strTempWord;
+							}	
 						}
 					}
-										//con.println(chrTheme);
+					//Printing out the word and random number after bubble sort
+					for(intRow = 0; intRow < intWordCount; intRow++){
+						System.out.println("after: " + strWord[intRow][0] + "	|	" + strWord[intRow][1]);
+					}
 
 				}else if(chrTheme == '2'){
 					System.out.println("City Names");
@@ -229,6 +248,5 @@ public class CassianCPT { // Added 'class' keyword
 			}
 			
 		}
-	//con.clear();
     }
 }
