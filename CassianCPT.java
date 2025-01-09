@@ -17,36 +17,53 @@ public class CassianCPT { // Added 'class' keyword
         
         //Creating and initializing variables
         //Main menu
-		char chrChoice;
-        chrChoice = 'b';
+		char chrChoice = 'b';
         
         //Themes
-        char chrTheme;
-        chrTheme = 0;
+        char chrTheme = '0';
+        String strFiles[];
         
         //Names
-        String strName;
-        strName = "";
+        String strName = "";
         
         //Bubble sort
-        int intRow;
-        intRow = 0;
+        int intRow = 0;
         int intRow2;
         int intRandom;
         int intWordCount = 0;
         int intRand;
+        int intTheme = 0;
         String strBurn;
-        String strTempWord;
-        strTempWord = "";
+        String strTempWord = "";
         String strTempNum;
-        String strFileName;
+        String strFileName = "";
         
         //Array names
         String strWord[][];
                 
+        //Hangman game play
+        int intRound = 0;
+        String strGuessWord = "";  
+        String strGuess;   
+        int intLives = 0;
+        int intPoints = 0;
+        
+        //Replay
+        boolean boolGameplay = true;  
+        char chrPlay;
+        
         //Game running
-        boolean boolRunning;
-        boolRunning = true;
+        boolean boolRunning = true;
+        
+                
+        strFiles = new String [5];
+				
+		strFiles[0] = "holidays.txt";
+		strFiles[1] = "cityNames.txt";
+		strFiles[2] = "foods.txt";
+		strFiles[3] = "videoGames.txt";
+		strFiles[4] = "animals.txt";
+				
         
         //Having the whole code in a while loop to always have it runnning 
         while(boolRunning == true){
@@ -76,81 +93,126 @@ public class CassianCPT { // Added 'class' keyword
 				//Clearing any previously ran code and theme options
 				con.println("					     PICK A THEME");
 				//Asking user for username
+									
 				con.print("Username: ");
-				strName = con.readLine();				
-				con.println("(1) Holidays");
-				con.println("(2) City Names");
-				con.println("(3) Food");
-				con.println("(4) Video Games");
-				con.println("(5) Animals");
-				chrTheme = con.getChar();
+				strName = con.readLine();
 				
+				//Asking user to pick a theme
+				while(chrTheme != ('1') && chrTheme != ('2') && chrTheme != ('3') && chrTheme != ('4') && chrTheme != ('5')){	
+					con.clear();	
+					con.println("(1) Holidays");
+					con.println("(2) City Names");
+					con.println("(3) Food");
+					con.println("(4) Video Games");
+					con.println("(5) Animals");
+					chrTheme = con.getChar();
+				}
+				
+				
+				//Convert theme from char to int
+				intTheme = Integer.parseInt(String.valueOf(chrTheme));  
+				
+				//Get file name
+				strFileName = strFiles[intTheme -1];	
+								
+				//Get the length of the file and open file
+				intWordCount = CPTTools.lengthTxt(strFileName);
+				TextInputFile themes = new TextInputFile(strFileName);
+				
+				//Creating array					
+				System.out.println(intWordCount);
+				strWord = new String[intWordCount][2];
+				
+				//Filling the array with the text from file
+				while(themes.eof() == false){
+					strWord[intRow][0] = themes.readLine();
+					System.out.println(strWord[intRow][0]);
+					intRow++;
+				}
+				//Generating a random number for the theme
+				for(intRow = 0; intRow < intWordCount; intRow++){
+					strWord[intRow][1] = Integer.toString((int)(Math.random()*100 + 0));
+				}
+				
+				//Printing out the word and random number before bubble sort					
+				for(intRow = 0; intRow < intWordCount; intRow++){
+					System.out.println("before: " + strWord[intRow][0] + "	|	" + strWord[intRow][1]);
+				}
+				
+				//Getting random number
+				for(intRow2 = 0; intRow2 < intWordCount; intRow2++){		
+					for(intRow = 1; intRow < intWordCount; intRow++){
+						//Checking to see if the left is smaller than that on the right
+						if(Integer.parseInt(strWord[intRow][1]) < Integer.parseInt(strWord[intRow - 1][1])){
+							//Take the left item
+							strTempNum = strWord[intRow][1];
+							strTempWord = strWord[intRow][0];
 							
-				//Seeing what theme they picked and printing it to terminal window before shuffeling
-				if(chrTheme == '1'){
-					con.println("You picked: Holidays");
-					System.out.println("Holidays");
-					strFileName = "holidays.txt";
-						
-					//Creating array
-					intWordCount = CPTTools.lengthTxt(strFileName);
-					System.out.println(intWordCount);
-					
-					strWord = new String[intWordCount][2];
-					
-					//Filling the array with the text from file
-					TextInputFile themes = new TextInputFile("holidays.txt");
-					while(themes.eof() == false){
-						strWord[intRow][0] = themes.readLine();
-						System.out.println(strWord[intRow][0]);
-						intRow++;
-					}
-					//Generating a random number for the theme
-					for(intRow = 0; intRow < intWordCount; intRow++){
-						strWord[intRow][1] = Integer.toString((int)(Math.random()*100 + 0));
-					}
-					
-					//Printing out the word and random number before bubble sort					
-					for(intRow = 0; intRow < intWordCount; intRow++){
-						System.out.println("before: " + strWord[intRow][0] + "	|	" + strWord[intRow][1]);
-					}
-					
-					//Getting random number
-					for(intRow2 = 0; intRow2 < intWordCount; intRow2++){		
-						for(intRow = 1; intRow < intWordCount; intRow++){
-							//Checking to see if the left is smaller than that on the right
-							if(Integer.parseInt(strWord[intRow][1]) < Integer.parseInt(strWord[intRow - 1][1])){
-								//Take the left item
-								strTempNum = strWord[intRow][1];
-								strTempWord = strWord[intRow][0];
-								
-								//Right item moves to the left
-								strWord[intRow][0] = strWord[intRow - 1][0];
-								strWord[intRow][1] = strWord[intRow - 1][1];
-								
-								//Move the left item to the right (the temporary item)
-								strWord[intRow - 1][1] = strTempNum;
-								strWord[intRow - 1][0] = strTempWord;
-							}	
-						}
+							//Right item moves to the left
+							strWord[intRow][0] = strWord[intRow - 1][0];
+							strWord[intRow][1] = strWord[intRow - 1][1];
+							
+							//Move the left item to the right (the temporary item)
+							strWord[intRow - 1][1] = strTempNum;
+							strWord[intRow - 1][0] = strTempWord;
+						}	
 					}
 					//Printing out the word and random number after bubble sort
 					for(intRow = 0; intRow < intWordCount; intRow++){
 						System.out.println("after: " + strWord[intRow][0] + "	|	" + strWord[intRow][1]);
 					}
-
-				}else if(chrTheme == '2'){
-					System.out.println("City Names");
-					con.println("You picked: City Names");
-				}else if(chrTheme == '3'){
-					System.out.println("Food");
-					con.println("You picked: Food");
-				}else if(chrTheme == '4'){
-					System.out.println("Video Games");
-					con.println("You picked: Video Games");
-				}else if (chrTheme == '5'){
-					System.out.println("Animals");
-					con.println("You picked: Animals");
+				}
+					
+				//Keep looping until user wants to quit or until end of txt file
+				while(boolGameplay == true){
+					
+					//Getting the word
+					System.out.println("Picked word: "+strWord[intRound][0]);
+					strGuessWord = strWord[intRound][0];
+					
+					//Getting user ready to play
+					con.clear();
+					con.println("Get ready to play!");
+					con.sleep(2000);
+					con.clear();
+					
+					//Asking user for guess
+					con.print("Guess your word here: ");
+					strGuess = con.readLine();
+					
+					//Win screen
+					if(strGuess.equalsIgnoreCase(strGuessWord) && intLives < 7){
+						boolGameplay = false;
+						intPoints++;
+						intRound++;
+						con.println("Congrats! you have won");
+						con.println("Plus one point!, You now have "+intPoints+" points");
+						
+					//Lose screen							
+					}else{
+						boolGameplay = false;
+						intRound++;
+						con.println("You have lost.");
+						con.println("You have "+intPoints+" points");
+					}
+					
+					//Asking user if they want to replay
+					con.print("Do you want to keep playing? (Y/N) ");
+					chrPlay = con.getChar();
+					
+					//If user wants to play, a new word is picked and they play again
+					if(chrPlay == ('Y') || chrPlay == ('y') && intRound <= intWordCount){
+						con.println("You have chosen to play again.");
+						con.println("Picking new word...");
+						con.sleep(5000);
+						con.clear();
+						boolGameplay = true;
+						
+					//If the user does not want to play, they are sent back to home screen
+					}else if(chrPlay == ('N') || chrPlay == ('n') || intRound > intWordCount){
+						chrChoice = 'b';
+						boolRunning = true;
+					}
 				}
 			}
 			

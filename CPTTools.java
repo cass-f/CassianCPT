@@ -18,5 +18,3 @@ public class CPTTools{
 		return intWordCount;
 	}		
 }
-
-
