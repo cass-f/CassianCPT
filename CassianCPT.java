@@ -47,7 +47,9 @@ public class CassianCPT { // Added 'class' keyword
         String strGuess;   
         int intLives = 0;
         int intPoints = 0;
-        
+        int intCount;
+        int intLength = 0;
+               
         //Replay
         boolean boolGameplay = true;  
         char chrPlay;
@@ -55,15 +57,17 @@ public class CassianCPT { // Added 'class' keyword
         //Game running
         boolean boolRunning = true;
         
-                
+        //Themes array                
         strFiles = new String [5];
 				
 		strFiles[0] = "holidays.txt";
 		strFiles[1] = "cityNames.txt";
-		strFiles[2] = "foods.txt";
+		strFiles[2] = "food.txt";
 		strFiles[3] = "videoGames.txt";
 		strFiles[4] = "animals.txt";
-				
+		
+		//Images				
+        BufferedImage imgGallow = con.loadImage("gallows.png");
         
         //Having the whole code in a while loop to always have it runnning 
         while(boolRunning == true){
@@ -129,6 +133,10 @@ public class CassianCPT { // Added 'class' keyword
 					System.out.println(strWord[intRow][0]);
 					intRow++;
 				}
+				
+				//Closing file
+				themes.close();
+				
 				//Generating a random number for the theme
 				for(intRow = 0; intRow < intWordCount; intRow++){
 					strWord[intRow][1] = Integer.toString((int)(Math.random()*100 + 0));
@@ -157,12 +165,12 @@ public class CassianCPT { // Added 'class' keyword
 							strWord[intRow - 1][0] = strTempWord;
 						}	
 					}
-					//Printing out the word and random number after bubble sort
-					for(intRow = 0; intRow < intWordCount; intRow++){
-						System.out.println("after: " + strWord[intRow][0] + "	|	" + strWord[intRow][1]);
-					}
 				}
-					
+				//Printing out the word and random number after bubble sort
+				for(intRow = 0; intRow < intWordCount; intRow++){
+					System.out.println("after: " + strWord[intRow][0] + "	|	" + strWord[intRow][1]);
+				}
+								
 				//Keep looping until user wants to quit or until end of txt file
 				while(boolGameplay == true){
 					
@@ -176,32 +184,63 @@ public class CassianCPT { // Added 'class' keyword
 					con.sleep(2000);
 					con.clear();
 					
+					//Getting length of word
+					intLength = strGuessWord.length();
+					
 					//Asking user for guess
+					con.println("Theme: "+chrTheme);
+					con.println("Saves: "+intPoints);
+					con.println("Games Played: "+intRound);
+					
+					//Drawing image
+					con.drawImage(imgGallow, 0, 100);
+					
+					//Setting it so the word lines are lined up with gallow
+					for(intCount = 0; intCount < 14; intCount++){
+						con.println(" ");	
+					}
+					
+					//Printing the number of needed lines respective to the word
+					for(intCount = 0; intCount < intLength; intCount++){
+						con.print("_ ");
+					}
+					con.println(" ");
 					con.print("Guess your word here: ");
 					strGuess = con.readLine();
 					
 					//Win screen
 					if(strGuess.equalsIgnoreCase(strGuessWord) && intLives < 7){
+						con.clear();
 						boolGameplay = false;
 						intPoints++;
 						intRound++;
 						con.println("Congrats! you have won");
 						con.println("Plus one point!, You now have "+intPoints+" points");
+						//Asking user if they want to replay
+						con.print("Do you want to keep playing? (Y/N) ");
+						chrPlay = con.getChar();
 						
+					//If wrong, user can still continue if lives is less than 7
+					}else if(!strGuess.equalsIgnoreCase(strGuessWord) && intLives < 7){
+						con.clear();
+						con.println("Incorrect Guess.");
+						
+										
 					//Lose screen							
-					}else{
+					}else if(intLives >= 7){
+						con.clear();
 						boolGameplay = false;
 						intRound++;
 						con.println("You have lost.");
 						con.println("You have "+intPoints+" points");
+						//Asking user if they want to replay
+						con.print("Do you want to keep playing? (Y/N) ");
+						chrPlay = con.getChar();
 					}
-					
-					//Asking user if they want to replay
-					con.print("Do you want to keep playing? (Y/N) ");
-					chrPlay = con.getChar();
-					
+										
 					//If user wants to play, a new word is picked and they play again
 					if(chrPlay == ('Y') || chrPlay == ('y') && intRound <= intWordCount){
+						con.clear();
 						con.println("You have chosen to play again.");
 						con.println("Picking new word...");
 						con.sleep(5000);
@@ -210,8 +249,20 @@ public class CassianCPT { // Added 'class' keyword
 						
 					//If the user does not want to play, they are sent back to home screen
 					}else if(chrPlay == ('N') || chrPlay == ('n') || intRound > intWordCount){
+						con.clear();
 						chrChoice = 'b';
 						boolRunning = true;
+						boolGameplay = false;
+						
+						//Checking to see if they have the secret user name. If so, +2 pts
+						if(strName.equalsIgnoreCase("statitan")){
+							con.clear();
+							con.println("You get 2 extra points");
+							intPoints = intPoints + 2;
+							System.out.println(intPoints);
+							con.sleep(5000);
+						}
+					chrChoice = 'q';
 					}
 				}
 			}
@@ -262,7 +313,7 @@ public class CassianCPT { // Added 'class' keyword
 			}
 						
 			//Checking to see if user found the secret screen and printing a joke with countdown
-			else if(chrChoice == 'w' || chrChoice == 'W'){
+			else if(chrChoice == '`'){
 				//Making boolRunning false to eliminate glitching of the text from constantly being printed
 				boolRunning = false;
 				

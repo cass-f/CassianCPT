@@ -1,7 +1,7 @@
 hamburger
 poutine
 lettuce
-hotdogs'
+hotdogs
 calamari
 chicken
 fettuchini 
