@@ -1,7 +1,6 @@
 toronto
 chicago
 atlanta
-vancouver 
 calgary
 winnipeg
 edmonton
