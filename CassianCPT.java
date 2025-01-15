@@ -46,7 +46,7 @@ public class CassianCPT { // Added 'class' keyword
         int intRound = 0;
         String strGuessWord = "";  
         String strGuess;   
-        int intLives = 7;
+        int intLives = 6;
         int intPoints = 0;
         int intCount;
         int intLength = 0;
@@ -70,25 +70,65 @@ public class CassianCPT { // Added 'class' keyword
 		strFiles[3] = "videoGames.txt";
 		strFiles[4] = "animals.txt";
 		
-		//Images				
-		int headWidth = 10;
-		int headHeight = 10;
-		
+		//Images					
         BufferedImage imgGallow = con.loadImage("gallows.png");
         BufferedImage imgBlack = con.loadImage("blackScreen.png");
-        BufferedImage imgHead = con.loadImage("head.png");     
-        BufferedImage imgHeadResized = new BufferedImage(headWidth, headHeight, "head.png");
-        Graphics2d imgHead2D = resizedImage.createGraphics();
-           
-        BufferedImage imgBody = con.loadImage("body.png");
-        BufferedImage imgLeftArm = con.loadImage("leftArm.png");
-        BufferedImage imgRightArm = con.loadImage("rightArm.png");
-        BufferedImage imgLeftLeg = con.loadImage("leftLeg.png");
-        BufferedImage imgRightLeg = con.loadImage("rightLeg.png");
+        
+        //The man
+        int intXValueRArm[]= new int [4];
+        intXValueRArm[0] = 137;
+        intXValueRArm[1] = 185;
+        intXValueRArm[2] = 175;
+        intXValueRArm[3] = 125;
+	
+		int intYValueRArm[] = new int [4];
+        intYValueRArm[0] = 200;
+        intYValueRArm[1] = 250;
+        intYValueRArm[2] = 250;
+        intYValueRArm[3] = 200;        
+                
+        
+        int intXValueRLeg[]= new int [4];
+        intXValueRLeg[0] = 125;
+        intXValueRLeg[1] = 175;
+        intXValueRLeg[2] = 185;
+        intXValueRLeg[3] = 137;
+	
+		int intYValueRLeg[] = new int [4];
+        intYValueRLeg[0] = 260;
+        intYValueRLeg[1] = 310;
+        intYValueRLeg[2] = 310;
+        intYValueRLeg[3] = 260; 
         
         
-        con.drawImage(imgGallow, 0, 100);
-        con.drawImage(imgHead, 25, 100);
+        int intXValueLArm[]= new int [4];
+        intXValueLArm[0] = 97;
+        intXValueLArm[1] = 135;
+        intXValueLArm[2] = 125;
+        intXValueLArm[3] = 85;
+	
+		int intYValueLArm[] = new int [4];
+        intYValueLArm[0] = 250;
+        intYValueLArm[1] = 200;
+        intYValueLArm[2] = 200;
+        intYValueLArm[3] = 250;        
+        
+                
+        int intXValueLLeg[]= new int [4];
+        intXValueLLeg[0] = 135;
+        intXValueLLeg[1] = 97;
+        intXValueLLeg[2] = 85;
+        intXValueLLeg[3] = 125;
+	
+		int intYValueLLeg[] = new int [4];
+        intYValueLLeg[0] = 210;
+        intYValueLLeg[1] = 360;
+        intYValueLLeg[2] = 360;
+        intYValueLLeg[3] = 210; 
+        
+               
+        
+        
         
         //Having the whole code in a while loop to always have it runnning 
         while(boolRunning == true){
@@ -213,6 +253,9 @@ public class CassianCPT { // Added 'class' keyword
 				//Initalizing variable
 				boolGameplay = true;
 				
+				//Drawing image
+				con.drawImage(imgGallow, 0, 100);
+				
 				//Keep looping until user wants to quit or until end of txt file
 				while(boolGameplay == true){
 					
@@ -225,10 +268,8 @@ public class CassianCPT { // Added 'class' keyword
 					con.println("Theme: "+strTheme);
 					con.println("Saves: "+intPoints);
 					con.println("Games Played: "+intRound);
-					con.println("Lives: "+intLives);
+					con.println("Lives Left: "+intLives);
 					
-					//Drawing image
-					con.drawImage(imgGallow, 0, 100);
 					
 					//Setting it so the word lines are lined up with gallow
 					for(intCount = 0; intCount < 14; intCount++){
@@ -247,7 +288,7 @@ public class CassianCPT { // Added 'class' keyword
 					strGuess = con.readLine();
 					
 					//Win screen
-					if(strGuess.equalsIgnoreCase(strGuessWord) && intLives > 1){
+					if(strGuess.equalsIgnoreCase(strGuessWord) && intLives > 0){
 						con.clear();
 						System.out.println("User won");
 						boolGameplay = false;
@@ -260,7 +301,7 @@ public class CassianCPT { // Added 'class' keyword
 						chrPlay = con.getChar();
 						
 					//If wrong, user can still continue if lives is less than 7
-					}else if(!strGuess.equalsIgnoreCase(strGuessWord) && intLives > 1){
+					}else if(!strGuess.equalsIgnoreCase(strGuessWord) && intLives > 0){
 						con.clear();
 						System.out.println("Incorrect Guess");
 						con.println("Incorrect Guess.");
@@ -271,6 +312,20 @@ public class CassianCPT { // Added 'class' keyword
 						//Initalizing array
 						strWordGuess = new String[intCount][3];
 						
+						if(intLives == 5){
+							con.fillOval(105, 125, 50, 50);				
+						}else if(intLives == 4){
+							con.fillRect(125, 173, 12, 100);
+						}else if(intLives == 3){
+							con.fillPolygon(intXValueRArm, intYValueRArm, 4);
+						}else if(intLives == 2){
+							con.fillPolygon(intXValueLArm, intYValueLArm, 4);
+						}else if(intLives == 1){
+							con.fillPolygon(intXValueRLeg, intYValueRLeg, 4);
+						}else if(intLives == 0){
+							con.fillPolygon(intXValueLLeg, intYValueRLeg, 4);
+						}
+						
 						//If stamtent only allows code to enter letter randomization once
 						if(intLives == 6){
 							//Creating an array for the word, filling array: [letter][random number][position]
@@ -278,6 +333,7 @@ public class CassianCPT { // Added 'class' keyword
 								strWordGuess[intCount][2] = Integer.toString(intCount);
 							}							
 							
+														
 							for(intCount = 0; intCount < intLengthGuess; intCount++){
 								strWordGuess[intCount][0] = Character.toString(strGuessWord.charAt(intCount));
 								strWordGuess[intCount][1] = Integer.toString((int)(Math.random()*100 + 0));
@@ -313,7 +369,7 @@ public class CassianCPT { // Added 'class' keyword
 				
 						
 					//Lose screen							
-					if(intLives <= 1){
+					if(intLives <= 0){
 						con.clear();
 						System.out.println("User lost");
 						boolGameplay = false;
@@ -333,7 +389,13 @@ public class CassianCPT { // Added 'class' keyword
 						con.sleep(2000);
 						con.clear();
 						boolGameplay = true;
-						intLives = 7;
+						intLives = 6;
+					
+						//Paiting over to remove image
+						con.drawImage(imgBlack, -10, 0);
+						
+						//Drawing image
+						con.drawImage(imgGallow, 0, 100);
 						
 					//If the user does not want to play, they are sent back to home screen
 					}else if(chrPlay == 'N' || chrPlay == 'n' || intRound > intWordCount){

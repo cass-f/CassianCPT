@@ -15,5 +15,5 @@ philidelphia
 shanghai
 blackpool
 sudbury
-detriot
+detroit
 beijing
