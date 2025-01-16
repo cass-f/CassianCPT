@@ -38,6 +38,7 @@ public class CassianCPT { // Added 'class' keyword
         String strTempWord = "";
         String strTempNum;
         String strFileName = "";
+        String strTempPos = "";
         
         //Array names
         String strWord[][];
@@ -53,6 +54,10 @@ public class CassianCPT { // Added 'class' keyword
         String strTheme = "";
         String strWordGuess[][];
         int intLengthGuess = 0; 
+        String strTempLetter = "";
+        int intLetterCount = 1;
+        int intTempLetterCount = 0;
+        String strSecretWord[];
               
         //Replay
         boolean boolGameplay;  
@@ -125,11 +130,7 @@ public class CassianCPT { // Added 'class' keyword
         intYValueLLeg[1] = 360;
         intYValueLLeg[2] = 360;
         intYValueLLeg[3] = 210; 
-        
-               
-        
-        
-        
+
         //Having the whole code in a while loop to always have it runnning 
         while(boolRunning == true){
 			//In homescreen, and printing out the homescreen options.
@@ -155,23 +156,27 @@ public class CassianCPT { // Added 'class' keyword
 				boolRunning = false;
 				con.clear();
 				
-				//Clearing any previously ran code and theme options
-				con.println("					     PICK A THEME");
-				//Asking user for username
-									
-				con.print("Username: ");
-				strName = con.readLine();
+				
 				
 				//Asking user to pick a theme
 				while(boolPicking == true){
-					while(chrTheme != ('1') && chrTheme != ('2') && chrTheme != ('3') && chrTheme != ('4') && chrTheme != ('5')){	
-						con.clear();	
+					
+					while(chrTheme != ('1') && chrTheme != ('2') && chrTheme != ('3') && chrTheme != ('4') && chrTheme != ('5')){		
+						
+						con.println("					     PICK A THEME");
+						
+						//Asking user for username				
+						con.print("Username: ");
+						strName = con.readLine();
+						
+						//Shwoing user the themes
 						con.println("(1) Holidays");
 						con.println("(2) City Names");
 						con.println("(3) Food");
 						con.println("(4) Video Games");
 						con.println("(5) Animals");
 						chrTheme = con.getChar();
+						con.clear();
 					}
 					
 					//Getting the theme they picked in words
@@ -256,6 +261,12 @@ public class CassianCPT { // Added 'class' keyword
 				//Drawing image
 				con.drawImage(imgGallow, 0, 100);
 				
+				
+				
+				strWordGuess = new String[0][0];			
+				
+				
+				
 				//Keep looping until user wants to quit or until end of txt file
 				while(boolGameplay == true){
 					
@@ -279,10 +290,18 @@ public class CassianCPT { // Added 'class' keyword
 					//Getting length of word
 					intLength = strGuessWord.length();
 					
+					//Creating an array
+	//				strWordGuess = new String[intLetterCount][2];
+					strSecretWord = new String[intCount];
+					
 					//Printing the number of needed lines respective to the word
-					for(intCount = 0; intCount < intLength; intCount++){
-						con.print("_ ");
+					if(intLives == 6){
+						for(intCount = 0; intCount < intLength; intCount++){
+							strSecretWord[intCount] = "_ ";
+							con.print(strSecretWord[intCount]);
+						}
 					}
+					
 					con.println(" ");
 					con.print("Guess your word here: ");
 					strGuess = con.readLine();
@@ -309,11 +328,63 @@ public class CassianCPT { // Added 'class' keyword
 						intLives = intLives - 1;
 						intLengthGuess = strGuessWord.length();
 						
-						//Initalizing array
-						strWordGuess = new String[intCount][3];
+						
+						
+							System.out.println("intLives:" + intLives);					
+						
+						
+
+						
+						//If stamtent only allows code to enter letter randomization once
+						if(intLives == 5){
+							
+							
+							//Initalizing array
+							strWordGuess = new String[intCount][3];
+							
+							//Creating an array for the word, filling array: [letter][random number][position]
+							for(intCount = 0; intCount < intLengthGuess; intCount++){
+								strWordGuess[intCount][2] = Integer.toString(intCount);
+							}							
+							
+														
+							for(intCount = 0; intCount < intLengthGuess; intCount++){
+								strWordGuess[intCount][0] = Character.toString(strGuessWord.charAt(intCount));
+								strWordGuess[intCount][1] = Integer.toString((int)(Math.random()*100 + 0));
+								System.out.println("before: "+strWordGuess[intCount][0] +" "+strWordGuess[intCount][1] + " "+strWordGuess[intCount][2]);
+							}
+							
+							for(intRow2 = 0; intRow2 < intLengthGuess; intRow2++){		
+								for(intRow = 1; intRow < intLengthGuess; intRow++){
+									//Checking to see if the left is smaller than that on the right
+									if(Integer.parseInt(strWordGuess[intRow][1]) < Integer.parseInt(strWordGuess[intRow - 1][1])){
+										//Take the left item
+										strTempNum = strWordGuess[intRow][1];
+										strTempWord = strWordGuess[intRow][0];
+										strTempPos = strWordGuess[intRow][2];
+										
+										//Right item moves to the left
+										strWordGuess[intRow][0] = strWordGuess[intRow - 1][0];
+										strWordGuess[intRow][1] = strWordGuess[intRow - 1][1];
+										strWordGuess[intRow][2] = strWordGuess[intRow - 1][2];
+										
+										//Move the left item to the right (the temporary item)
+										strWordGuess[intRow - 1][1] = strTempNum;
+										strWordGuess[intRow - 1][0] = strTempWord;
+										strWordGuess[intRow - 1][2] = strTempPos;
+									}	
+								}
+							}
+							//Printing out the word and random number after bubble sort
+							for(intRow = 0; intRow < intLengthGuess; intRow++){
+								System.out.println("after: " + strWordGuess[intRow][0] + " " + strWordGuess[intRow][1] + " " + strWordGuess[intRow][2]);
+							}
+						}
+						
+						
 						
 						if(intLives == 5){
-							con.fillOval(105, 125, 50, 50);				
+							con.fillOval(105, 125, 50, 50);			
 						}else if(intLives == 4){
 							con.fillRect(125, 173, 12, 100);
 						}else if(intLives == 3){
@@ -325,45 +396,22 @@ public class CassianCPT { // Added 'class' keyword
 						}else if(intLives == 0){
 							con.fillPolygon(intXValueLLeg, intYValueRLeg, 4);
 						}
+
 						
-						//If stamtent only allows code to enter letter randomization once
-						if(intLives == 6){
-							//Creating an array for the word, filling array: [letter][random number][position]
-							for(intCount = 0; intCount < intLengthGuess; intCount++){
-								strWordGuess[intCount][2] = Integer.toString(intCount);
-							}							
+						System.out.println(intLetterCount + " " + intTempLetterCount);
+					
+					
+				
+					
+						
+						for(intTempLetterCount = 0; intTempLetterCount < intLetterCount; intTempLetterCount++){
 							
-														
-							for(intCount = 0; intCount < intLengthGuess; intCount++){
-								strWordGuess[intCount][0] = Character.toString(strGuessWord.charAt(intCount));
-								strWordGuess[intCount][1] = Integer.toString((int)(Math.random()*100 + 0));
-								System.out.println("before: "+strWordGuess[intCount][0] +" "+strWordGuess[intCount][1]);
-							}
-							
-							for(intRow2 = 0; intRow2 < intLengthGuess; intRow2++){		
-								for(intRow = 1; intRow < intLengthGuess; intRow++){
-									//Checking to see if the left is smaller than that on the right
-									if(Integer.parseInt(strWordGuess[intRow][1]) < Integer.parseInt(strWordGuess[intRow - 1][1])){
-										//Take the left item
-										strTempNum = strWordGuess[intRow][1];
-										strTempWord = strWordGuess[intRow][0];
-										
-										//Right item moves to the left
-										strWordGuess[intRow][0] = strWordGuess[intRow - 1][0];
-										strWordGuess[intRow][1] = strWordGuess[intRow - 1][1];
-										
-										//Move the left item to the right (the temporary item)
-										strWordGuess[intRow - 1][1] = strTempNum;
-										strWordGuess[intRow - 1][0] = strTempWord;
-									}	
-								}
-							}
-							//Printing out the word and random number after bubble sort
-							for(intRow = 0; intRow < intLengthGuess; intRow++){
-								System.out.println("after: " + strWordGuess[intRow][0] + " " + strWordGuess[intRow][1] + " " + strWordGuess[intRow][2]);
-							}
-							
+							strSecretWord[intTempLetterCount] = strWordGuess[intTempLetterCount][0];
+							System.out.print(strSecretWord[intTempLetterCount] + "	");
 						}
+		
+						intLetterCount++;
+
 						con.sleep(3000);
 					}
 				
@@ -521,22 +569,7 @@ public class CassianCPT { // Added 'class' keyword
 				con.println("We hope to see you again.");
 				con.sleep(5000);
 				boolRunning = false;
-			}
-			
-			//Checking to see if user enterd invalid input
-			if(chrChoice == 'q' || chrChoice == 'Q'
-			||chrChoice == 'b' || chrChoice == 'B'
-			||chrChoice == 'h' || chrChoice == 'H'
-			||chrChoice == 's' || chrChoice == 'S'
-			||chrChoice == '~'){
-				System.out.println("Invalid Input");
-				con.clear();
-				boolRunning = false;
-				chrChoice = 'b';
-				boolRunning = true;
-				
-			}
-			
+			}			
 		}
     }
 }
