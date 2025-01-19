@@ -15,124 +15,136 @@ public class CassianCPT { // Added 'class' keyword
         
         con.setTextColor(Color.RED);
         
-        //Creating and initializing variables
-        //Main menu
-		char chrChoice = 'b';
-        
-        //Themes
-        char chrTheme = '0';
-        String strFiles[];
-        boolean boolPicking = true;
-        
-        //Names
-        String strName = "";
-        
-        //Bubble sort
-        int intRow = 0;
-        int intRow2;
-        int intRandom;
-        int intWordCount = 0;
-        int intRand;
-        int intTheme = 0;
-        String strBurn;
-        String strTempWord = "";
-        String strTempNum;
-        String strFileName = "";
-        String strTempPos = "";
-        
-        //Array names
-        String strWord[][];
-                
-        //Hangman game play
-        int intRound = 0;
-        String strGuessWord = "";  
-        String strGuess;   
-        int intLives = 6;
-        int intPoints = 0;
-        int intCount;
-        int intLength = 0;
-        String strTheme = "";
-        String strLetterPos[][];
-        int intLengthGuess = 0; 
-        String strTempLetter = "";
-        int intLetterCount = 0;
-        int intTempLetterCount = 0;
-        String strSecretWord[];
-              
-        //Replay
-        boolean boolGameplay;  
-        char chrPlay = ' ';
-        
         //Game running
-        boolean boolRunning = true;
-        
-        //Themes array                
-        strFiles = new String [5];
-				
-		strFiles[0] = "holidays.txt";
-		strFiles[1] = "cityNames.txt";
-		strFiles[2] = "food.txt";
-		strFiles[3] = "videoGames.txt";
-		strFiles[4] = "animals.txt";
+		boolean boolRunning = true;
 		
+		//Creating and initalzing permanent variables
+				
 		//Images					
-        BufferedImage imgGallow = con.loadImage("gallows.png");
-        BufferedImage imgBlack = con.loadImage("blackScreen.png");
-        
-        //The man
-        int intXValueRArm[]= new int [4];
-        intXValueRArm[0] = 137;
-        intXValueRArm[1] = 185;
-        intXValueRArm[2] = 175;
-        intXValueRArm[3] = 125;
+		BufferedImage imgGallow = con.loadImage("gallows.png");
+		BufferedImage imgBlack = con.loadImage("blackScreen.png");
+		
+		//The man
+		int intXValueRArm[]= new int [4];
+		intXValueRArm[0] = 137;
+		intXValueRArm[1] = 185;
+		intXValueRArm[2] = 175;
+		intXValueRArm[3] = 125;
 	
 		int intYValueRArm[] = new int [4];
-        intYValueRArm[0] = 200;
-        intYValueRArm[1] = 250;
-        intYValueRArm[2] = 250;
-        intYValueRArm[3] = 200;        
-                
-        
-        int intXValueRLeg[]= new int [4];
-        intXValueRLeg[0] = 125;
-        intXValueRLeg[1] = 175;
-        intXValueRLeg[2] = 185;
-        intXValueRLeg[3] = 137;
+		intYValueRArm[0] = 200;
+		intYValueRArm[1] = 250;
+		intYValueRArm[2] = 250;
+		intYValueRArm[3] = 200;        
+				
+		
+		int intXValueRLeg[]= new int [4];
+		intXValueRLeg[0] = 125;
+		intXValueRLeg[1] = 175;
+		intXValueRLeg[2] = 185;
+		intXValueRLeg[3] = 137;
 	
 		int intYValueRLeg[] = new int [4];
-        intYValueRLeg[0] = 260;
-        intYValueRLeg[1] = 310;
-        intYValueRLeg[2] = 310;
-        intYValueRLeg[3] = 260; 
-        
-        
-        int intXValueLArm[]= new int [4];
-        intXValueLArm[0] = 97;
-        intXValueLArm[1] = 135;
-        intXValueLArm[2] = 125;
-        intXValueLArm[3] = 85;
+		intYValueRLeg[0] = 260;
+		intYValueRLeg[1] = 310;
+		intYValueRLeg[2] = 310;
+		intYValueRLeg[3] = 260; 
+		
+		
+		int intXValueLArm[]= new int [4];
+		intXValueLArm[0] = 97;
+		intXValueLArm[1] = 135;
+		intXValueLArm[2] = 125;
+		intXValueLArm[3] = 85;
 	
 		int intYValueLArm[] = new int [4];
-        intYValueLArm[0] = 250;
-        intYValueLArm[1] = 200;
-        intYValueLArm[2] = 200;
-        intYValueLArm[3] = 250;        
-        
-                
-        int intXValueLLeg[]= new int [4];
-        intXValueLLeg[0] = 135;
-        intXValueLLeg[1] = 97;
-        intXValueLLeg[2] = 85;
-        intXValueLLeg[3] = 125;
+		intYValueLArm[0] = 250;
+		intYValueLArm[1] = 200;
+		intYValueLArm[2] = 200;
+		intYValueLArm[3] = 250;        
+		
+				
+		int intXValueLLeg[]= new int [4];
+		intXValueLLeg[0] = 135;
+		intXValueLLeg[1] = 97;
+		intXValueLLeg[2] = 85;
+		intXValueLLeg[3] = 125;
 	
 		int intYValueLLeg[] = new int [4];
-        intYValueLLeg[0] = 210;
-        intYValueLLeg[1] = 360;
-        intYValueLLeg[2] = 360;
-        intYValueLLeg[3] = 210; 
+		intYValueLLeg[0] = 210;
+		intYValueLLeg[1] = 360;
+		intYValueLLeg[2] = 360;
+		intYValueLLeg[3] = 210; 
 
         //Having the whole code in a while loop to always have it runnning 
         while(boolRunning == true){
+
+			//Creating, initializing variables and resetting temporary variables between gameplays
+			//Main menu
+			char chrChoice = 'b';
+			
+			//Themes
+			char chrTheme = '0';
+			String strFiles[];
+			boolean boolPicking = true;
+			
+			//Name
+			String strName = "";
+			
+			//Bubble sort
+			int intRow = 0;
+			int intRow2;
+			int intRandom;
+			int intWordCount = 0;
+			int intRand;
+			int intTheme = 0;
+			String strBurn;
+			String strTempWord = "";
+			String strTempNum;
+			String strFileName = "";
+			String strTempPos = "";
+			
+			//Word array
+			String strWord[][];
+					
+			//Hangman game play
+			int intRound = 0;
+			String strGuessWord = "";  
+			String strGuess;   
+			int intLives = 6;
+			int intPoints = 0;
+			int intCount;
+			int intLength = 0;
+			String strTheme = "";
+			String strLetterPos[][];
+			int intLengthGuess = 0; 
+			String strTempLetter = "";
+			int intLetterCount = 0;
+			String strSecretWord[];
+			int intLetterPos;
+				  
+			//Scoreboard
+			String strScoreboard[][];   
+			int intScoreboardLength = 0;  
+			String strScoreName = "";
+			String strScorePoint = "0";
+			String strTempScoreName;
+			String strTempScorePoint;
+			String strScoreBurn;
+			 
+			//Replay
+			boolean boolGameplay;  
+			char chrPlay = ' ';
+			
+			//Themes array                
+			strFiles = new String [5];
+					
+			strFiles[0] = "holidays.txt";
+			strFiles[1] = "cityNames.txt";
+			strFiles[2] = "food.txt";
+			strFiles[3] = "videoGames.txt";
+			strFiles[4] = "animals.txt";
+
 			//In homescreen, and printing out the homescreen options.
 			if(chrChoice == 'b' || chrChoice == 'B'){
 				//Clearing the screen of any previous code
@@ -146,37 +158,38 @@ public class CassianCPT { // Added 'class' keyword
 				con.println("SCOREBOARD (S)");
 				con.println("QUIT (Q)");
 				chrChoice = con.getChar();
+				System.out.println("User choice: "+chrChoice);
 			}
 			
 			//Chceking to see if user wants to play
-			else if(chrChoice == 'p' || chrChoice == 'P'){
+			if(chrChoice == 'p' || chrChoice == 'P'){
 				System.out.println("User wants to play.");
 				
 				//Making boolRunning false to eliminate glitching of the text from constantly being printed
 				boolRunning = false;
-				con.clear();
+				
 				
 				
 				
 				//Asking user to pick a theme
 				while(boolPicking == true){
-					
-					while(chrTheme != ('1') && chrTheme != ('2') && chrTheme != ('3') && chrTheme != ('4') && chrTheme != ('5')){		
-						
-						con.println("					     PICK A THEME");
-						
-						//Asking user for username				
-						con.print("Username: ");
-						strName = con.readLine();
-						
-						//Shwoing user the themes
-						con.println("(1) Holidays");
-						con.println("(2) City Names");
-						con.println("(3) Food");
-						con.println("(4) Video Games");
-						con.println("(5) Animals");
-						chrTheme = con.getChar();
+			
+					//Asking user for username	
+					while(strName.trim() == ""){	
 						con.clear();
+						con.println("					     PICK A THEME");		
+						con.print("Username: ");
+						strName = con.readLine();						
+					}
+					
+					//Shwoing user the themes
+					con.println("(1) Holidays");
+					con.println("(2) City Names");
+					con.println("(3) Food");
+					con.println("(4) Video Games");
+					con.println("(5) Animals");
+					while(chrTheme != ('1') && chrTheme != ('2') && chrTheme != ('3') && chrTheme != ('4') && chrTheme != ('5')){	
+						chrTheme = con.getChar();
 					}
 					
 					//Getting the theme they picked in words
@@ -199,6 +212,9 @@ public class CassianCPT { // Added 'class' keyword
 						boolPicking = true;
 					}
 				}
+				
+				//Clearing above code
+				con.clear();
 				
 				//Convert theme from char to int
 				intTheme = Integer.parseInt(String.valueOf(chrTheme));  
@@ -259,7 +275,7 @@ public class CassianCPT { // Added 'class' keyword
 				boolGameplay = true;
 				
 				//Drawing image
-				con.drawImage(imgGallow, 0, 100);
+				con.drawImage(imgGallow, 0, 110);
 				
 				
 				//Initalizing array
@@ -275,8 +291,9 @@ public class CassianCPT { // Added 'class' keyword
 					
 					//Asking user for guess
 					con.clear();
+					con.println("Username: "+strName);
 					con.println("Theme: "+strTheme);
-					con.println("Saves: "+intPoints);
+					con.println("Points: "+intPoints);
 					con.println("Games Played: "+intRound);
 					con.println("Lives Left: "+intLives);
 					
@@ -288,7 +305,7 @@ public class CassianCPT { // Added 'class' keyword
 					
 					//Getting length of word
 					intLength = strGuessWord.length();
-										
+																		
 					//Printing the number of needed lines respective to the word
 					if(intLives == 6){
 						strSecretWord = new String[intCount];
@@ -299,17 +316,11 @@ public class CassianCPT { // Added 'class' keyword
 					}else{
 						//loop to print lines and revealed letter
 						for(intCount = 0; intCount < intLength; intCount++){
-							if(Integer.parseInt(strLetterPos[intTempLetterCount][2]) == 0){
-								con.print(strLetterPos[intTempLetterCount][0] + " ");
-								intTempLetterCount++;
-
-							}else{
-								con.print("_ ");
-							}
+							con.print(strSecretWord[intCount]);
 						}
+					}
 					
-					}	
-					
+
 					//Asking user to guess word
 					con.println(" ");
 					con.print("Guess your word here: ");
@@ -398,20 +409,15 @@ public class CassianCPT { // Added 'class' keyword
 						}else if(intLives == 0){
 							con.fillPolygon(intXValueLLeg, intYValueRLeg, 4);
 						}
-
 						
-						System.out.println(intLetterCount + " " + intTempLetterCount);				
-						
-						//Loading letters into the array
-						for(intTempLetterCount = 0; intTempLetterCount < intLetterCount; intTempLetterCount++){
+						//Putting random letter into array for printing
+						intLetterPos = Integer.parseInt(strLetterPos[intLetterCount][2]);
+						strSecretWord[intLetterPos] = strLetterPos[intLetterCount][0];
 							
-							strSecretWord[intTempLetterCount] = strLetterPos[intTempLetterCount][0];
-							System.out.print(strSecretWord[intTempLetterCount] + "	");
-						}
+							System.out.print("Random 2 strSecretWord[intLetterPos]: " + strSecretWord[intLetterPos] + "	");
 		
 						intLetterCount++;
-
-						con.sleep(3000);
+						con.sleep(1000);
 					}
 				
 						
@@ -444,7 +450,7 @@ public class CassianCPT { // Added 'class' keyword
 						con.drawImage(imgBlack, -10, 0);
 						
 						//Drawing image
-						con.drawImage(imgGallow, 0, 100);						
+						con.drawImage(imgGallow, 0, 110);						
 						
 					//If the user does not want to play, they are sent back to home screen
 					}else if(chrPlay == 'N' || chrPlay == 'n' || intRound > intWordCount){
@@ -464,25 +470,17 @@ public class CassianCPT { // Added 'class' keyword
 							con.sleep(2000);
 						}		
 						
+						//Printing player stats to screoboard
+						TextOutputFile Scoreboard = new TextOutputFile("Scoreboard.txt", true);
+							Scoreboard.println(strName);
+							Scoreboard.println(intPoints);
+							
+						//Closing file
+						Scoreboard.close();
+						
 						//Bringing user back to home screen and resetting everything	
 						chrChoice = 'b';
-						chrTheme = '0';
-						boolPicking = true;
-						strName = "";
-						intRow = 0;
-						intWordCount = 0;
-						intTheme = 0;
-						strTempWord = "";
-						strFileName = "";
-						intRound = 0;
-						strGuessWord = "";   
-						intLives = 6;
-						intPoints = 0;
-						intLength = 0;
-						strTheme = "";
-						intLengthGuess = 0; 
-						chrPlay = ' ';
-						
+												
 						//Paiting over to remove image
 						con.drawImage(imgBlack, -10, 0);
 						
@@ -513,8 +511,10 @@ public class CassianCPT { // Added 'class' keyword
 				con.println("If the man is hung before you think of the word, you LOOSE");
 				
 				//Allowing user to go home
-				con.print("To go home, press B. ");
-				chrChoice = con.getChar();
+				con.println("Enter B to go home");
+				while(chrChoice != 'b' && chrChoice != 'B'){
+					chrChoice = con.getChar();
+				}
 				
 				//Making boolRunning true to have game play continue
 				boolRunning = true;
@@ -523,16 +523,85 @@ public class CassianCPT { // Added 'class' keyword
 			
 			//Checking to see if user wants to check scoreboard
 			if(chrChoice == 's' || chrChoice == 'S'){
-				//Making boolRunning false to eliminate glitching of the text from constantly being printed
-				boolRunning = false;
 				
 				System.out.println("User wants to check scoreboard");
+				
+				//Making boolRunning false to eliminate glitching of the text from constantly being printed
+				boolRunning = false;
+				intCount = 0;
+				
+				//Get the length of the file and open file
+				intScoreboardLength = CPTTools.lengthTxt("Scoreboard.txt");
+				TextInputFile score = new TextInputFile("Scoreboard.txt");
+				
+				
+				//Divide by 2 because 1 score has 2 records in the file (name and points)
+				intScoreboardLength = intScoreboardLength/2;
+				
+				//Creating array					
+				System.out.println(intScoreboardLength);
+				strScoreboard = new String[intScoreboardLength][2];
+				
+				//Filling the array with the text from file
+				while(score.eof() == false){
+					//Getting values
+					strScoreName = score.readLine();
+					strScorePoint = score.readLine();
+					
+					System.out.println("Name: "+strScoreName);
+					System.out.println("Points: "+strScorePoint);
+					
+					//Inputing values into array
+					strScoreboard[intCount][0] = strScoreName;
+					strScoreboard[intCount][1] = strScorePoint;
+
+					intCount++;
+				}
+
+				//Bubble sorting
+				for(intRow2 = 0; intRow2 < intScoreboardLength; intRow2++){		
+					for(intRow = 1; intRow < intScoreboardLength; intRow++){	
+						//Checking to see if the left is smaller than that on the right
+						if(Integer.parseInt(strScoreboard[intRow][1]) > Integer.parseInt(strScoreboard[intRow - 1][1])){
+							//Take the left item
+							strTempScoreName = strScoreboard[intRow][0];
+							strTempScorePoint = strScoreboard[intRow][1];
+							
+							//Right item moves to the left
+							strScoreboard[intRow][0] = strScoreboard[intRow - 1][0];
+							strScoreboard[intRow][1] = strScoreboard[intRow - 1][1];
+							
+							//Move the left item to the right (the temporary item)
+							strScoreboard[intRow - 1][0] = strTempScoreName;
+							strScoreboard[intRow - 1][1] = strTempScorePoint;
+						}	
+					}
+				}
+				
+				//Printing out the scoreboard
 				con.clear();
 				con.println("					     SCOREBOARD");
+				con.println("Place - Name - Points");
+				con.sleep(500);
+					
+				for(intCount = 0; intCount < intScoreboardLength; intCount++){	
+					con.println(intCount+1 + " - " + strScoreboard[intCount][0] + " - " + strScoreboard[intCount][1]);
+					con.sleep(500);
+					
+				}					
+				//Bringing them back to home after scoreboard is done printing
+				con.println("Enter B to go home");
+				while(chrChoice != 'b' && chrChoice != 'B'){
+					chrChoice = con.getChar();
+				}
 				
-				//Making boolRunning true to have game play continue
 				boolRunning = true;
 				
+				//Closing file
+				score.close();
+
+				
+								
 			}
 						
 			//Checking to see if user found the secret screen and printing a joke with countdown
@@ -572,6 +641,15 @@ public class CassianCPT { // Added 'class' keyword
 				con.sleep(5000);
 				boolRunning = false;
 			}			
+			if(chrChoice != 'q' && chrChoice != 'Q'
+			||chrChoice != 'b' && chrChoice != 'B'
+			||chrChoice != 's' && chrChoice != 'S'
+			||chrChoice != 'p' && chrChoice != 'P'
+			||chrChoice != 'h' && chrChoice != 'H'
+			||chrChoice != '~'){
+				System.out.println("Invalid");
+				chrChoice = 'b';
+			}
 		}
     }
 }
