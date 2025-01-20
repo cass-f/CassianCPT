@@ -15,16 +15,16 @@ public class CassianCPT { // Added 'class' keyword
         
         con.setTextColor(Color.RED);
         
-        //Game running
+        //Boolean to ensure the game keeps looping
 		boolean boolRunning = true;
 		
-		//Creating and initalzing permanent variables
-				
+		//Creating and initalzing permanent variables (don't change  during game)	
 		//Images					
 		BufferedImage imgGallow = con.loadImage("gallows.png");
 		BufferedImage imgBlack = con.loadImage("blackScreen.png");
 		
 		//The man
+		//Right arm
 		int intXValueRArm[]= new int [4];
 		intXValueRArm[0] = 137;
 		intXValueRArm[1] = 185;
@@ -37,7 +37,7 @@ public class CassianCPT { // Added 'class' keyword
 		intYValueRArm[2] = 250;
 		intYValueRArm[3] = 200;        
 				
-		
+		//Right Leg
 		int intXValueRLeg[]= new int [4];
 		intXValueRLeg[0] = 125;
 		intXValueRLeg[1] = 175;
@@ -50,7 +50,7 @@ public class CassianCPT { // Added 'class' keyword
 		intYValueRLeg[2] = 310;
 		intYValueRLeg[3] = 260; 
 		
-		
+		//Left Arm
 		int intXValueLArm[]= new int [4];
 		intXValueLArm[0] = 97;
 		intXValueLArm[1] = 135;
@@ -63,7 +63,7 @@ public class CassianCPT { // Added 'class' keyword
 		intYValueLArm[2] = 200;
 		intYValueLArm[3] = 250;        
 		
-				
+		//Left Leg
 		int intXValueLLeg[]= new int [4];
 		intXValueLLeg[0] = 135;
 		intXValueLLeg[1] = 97;
@@ -79,7 +79,7 @@ public class CassianCPT { // Added 'class' keyword
         //Having the whole code in a while loop to always have it runnning 
         while(boolRunning == true){
 
-			//Creating, initializing variables and resetting temporary variables between gameplays
+			//Creating, initializing, and resetting temporary variables between gameplays (Varibales get updated during gameplay)
 			//Main menu
 			char chrChoice = 'b';
 			
@@ -136,23 +136,42 @@ public class CassianCPT { // Added 'class' keyword
 			boolean boolGameplay;  
 			char chrPlay = ' ';
 			
-			//Themes array                
-			strFiles = new String [5];
-					
-			strFiles[0] = "holidays.txt";
-			strFiles[1] = "cityNames.txt";
-			strFiles[2] = "food.txt";
-			strFiles[3] = "videoGames.txt";
-			strFiles[4] = "animals.txt";
+			//Themes 
+			//Creating and/or initialzing variables
+			int intThemeCount = 0;
+			String strThemeFile[];
+			intCount = 0;
+			String strTempTheme;
+			int intTempCount;
+			
+			//Making "themes.txt" into a variable to avoid hardcoding
+			String strThemeList = "themes.txt";
+			
+			//Getting the length of txt file
+			intThemeCount = CPTTools.lengthTxt(strThemeList);
+			           
+			//Create array and open file
+			strThemeFile = new String [intThemeCount];
+			TextInputFile ThemeList = new TextInputFile(strThemeList);
+			
+			//Load themes.txt data into array
+			while(ThemeList.eof() == false){	
+				strTempTheme = ThemeList.readLine();
+				strThemeFile[intCount] = strTempTheme;
+				intCount++;
+			}
+			
+			//Closing themes.txt
+			ThemeList.close();
 
 			//In homescreen, and printing out the homescreen options.
 			if(chrChoice == 'b' || chrChoice == 'B'){
 				//Clearing the screen of any previous code
 				con.clear();
 				
+				//Showing options to player and asking player what they want to do
 				System.out.println("In the homescreen.");
 				con.println("					     HANGMAN");
-				//Showing options to player and asking player what they want to do
 				con.println("PLAY (P)");
 				con.println("HELP (H)");
 				con.println("SCOREBOARD (S)");
@@ -167,10 +186,7 @@ public class CassianCPT { // Added 'class' keyword
 				
 				//Making boolRunning false to eliminate glitching of the text from constantly being printed
 				boolRunning = false;
-				
-				
-				
-				
+						
 				//Asking user to pick a theme
 				while(boolPicking == true){
 			
@@ -182,12 +198,18 @@ public class CassianCPT { // Added 'class' keyword
 						strName = con.readLine();						
 					}
 					
-					//Shwoing user the themes
-					con.println("(1) Holidays");
-					con.println("(2) City Names");
-					con.println("(3) Food");
-					con.println("(4) Video Games");
-					con.println("(5) Animals");
+					//Showing user the themes
+					intTempCount = 0;
+					for(intCount = 1; intCount <= intThemeCount; intCount++){
+						con.println("("+intCount+")"+strThemeFile[intTempCount]);
+						System.out.println("before:	"+intTempCount);
+						
+						if(intCount < intThemeCount){
+							intTempCount++;
+						}
+						System.out.println("after:	"+intTempCount);
+					}
+					//Allowing user to pick a theme and keeps asking until a valid input is entered
 					while(chrTheme != ('1') && chrTheme != ('2') && chrTheme != ('3') && chrTheme != ('4') && chrTheme != ('5')){	
 						chrTheme = con.getChar();
 					}
@@ -196,18 +218,23 @@ public class CassianCPT { // Added 'class' keyword
 					if(chrTheme == '1'){
 						strTheme = "Holidays";
 						boolPicking = false;
+						strFileName = "holidays.txt";
 					}else if(chrTheme == '2'){
 						strTheme = "City Names";
 						boolPicking = false;
+						strFileName = "cityNames.txt";
 					}else if(chrTheme == '3'){
 						strTheme = "Food";
 						boolPicking = false;
+						strFileName = "food.txt";
 					}else if(chrTheme == '4'){
 						strTheme = "Video Games";
 						boolPicking = false;
+						strFileName = "videoGames.txt";
 					}else if(chrTheme == '5'){
 						strTheme = "Animals";
 						boolPicking = false;
+						strFileName = "aniamls.txt";
 					}else{
 						boolPicking = true;
 					}
@@ -216,12 +243,7 @@ public class CassianCPT { // Added 'class' keyword
 				//Clearing above code
 				con.clear();
 				
-				//Convert theme from char to int
-				intTheme = Integer.parseInt(String.valueOf(chrTheme));  
-				
-				//Get file name
-				strFileName = strFiles[intTheme -1];	
-								
+												
 				//Get the length of the file and open file
 				intWordCount = CPTTools.lengthTxt(strFileName);
 				TextInputFile themes = new TextInputFile(strFileName);
@@ -230,7 +252,7 @@ public class CassianCPT { // Added 'class' keyword
 				System.out.println(intWordCount);
 				strWord = new String[intWordCount][2];
 				
-				//Filling the array with the text from file
+				//Filling the array with the text from file				
 				while(themes.eof() == false){
 					strWord[intRow][0] = themes.readLine();
 					System.out.println(strWord[intRow][0]);
@@ -245,8 +267,7 @@ public class CassianCPT { // Added 'class' keyword
 					strWord[intRow][1] = Integer.toString((int)(Math.random()*100 + 0));
 					System.out.println("before: " + strWord[intRow][0] + "	|	" + strWord[intRow][1]);
 				}
-				
-				
+								
 				//Getting random number
 				for(intRow2 = 0; intRow2 < intWordCount; intRow2++){		
 					for(intRow = 1; intRow < intWordCount; intRow++){
@@ -266,7 +287,7 @@ public class CassianCPT { // Added 'class' keyword
 						}	
 					}
 				}
-				//Printing out the word and random number after bubble sort
+				//Printing out the word and random number after bubble sort into terminal window
 				for(intRow = 0; intRow < intWordCount; intRow++){
 					System.out.println("after: " + strWord[intRow][0] + "	|	" + strWord[intRow][1]);
 				}
@@ -274,8 +295,8 @@ public class CassianCPT { // Added 'class' keyword
 				//Initalizing variable
 				boolGameplay = true;
 				
-				//Drawing image
-				con.drawImage(imgGallow, 0, 110);
+				//Drawing gallow
+				con.drawImage(imgGallow, 0, 115);
 				
 				
 				//Initalizing array
@@ -296,9 +317,8 @@ public class CassianCPT { // Added 'class' keyword
 					con.println("Points: "+intPoints);
 					con.println("Games Played: "+intRound);
 					con.println("Lives Left: "+intLives);
-					
-					
-					//Setting it so the word lines are lined up with gallow
+										
+					//Setting it so the word lines are lined up with gallow (made it go bellow the gallows)
 					for(intCount = 0; intCount < 14; intCount++){
 						con.println(" ");	
 					}
@@ -314,7 +334,7 @@ public class CassianCPT { // Added 'class' keyword
 							con.print(strSecretWord[intCount]);
 						}
 					}else{
-						//loop to print lines and revealed letter
+						//Loop to print lines and revealed letter
 						for(intCount = 0; intCount < intLength; intCount++){
 							con.print(strSecretWord[intCount]);
 						}
@@ -450,7 +470,7 @@ public class CassianCPT { // Added 'class' keyword
 						con.drawImage(imgBlack, -10, 0);
 						
 						//Drawing image
-						con.drawImage(imgGallow, 0, 110);						
+						con.drawImage(imgGallow, 0, 11);						
 						
 					//If the user does not want to play, they are sent back to home screen
 					}else if(chrPlay == 'N' || chrPlay == 'n' || intRound > intWordCount){

@@ -1,5 +1,5 @@
-holidays
-city names
-food
-video games
-animals
+Holidays
+City names
+Food
+Video games
+Animals
