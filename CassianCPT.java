@@ -455,55 +455,57 @@ public class CassianCPT { // Added 'class' keyword
 					}
 										
 					//If user wants to play, a new word is picked and they play again
-					if(chrPlay == 'Y' || chrPlay == 'y' && intRound <= intWordCount){
-						con.clear();
-						con.println("You have chosen to play again.");
-						con.println("Picking new word...");
-						con.sleep(2000);
-						con.clear();
-						boolGameplay = true;
-						intLives = 6;
-						intLetterCount = 1;
-						
-					
-						//Paiting over to remove image
-						con.drawImage(imgBlack, -10, 0);
-						
-						//Drawing image
-						con.drawImage(imgGallow, 0, 11);						
-						
-					//If the user does not want to play, they are sent back to home screen
-					}else if(chrPlay == 'N' || chrPlay == 'n' || intRound > intWordCount){
-						con.clear();
-						chrChoice = 'b';
-						boolRunning = true;
-						boolGameplay = false;
-						intLives = 6;
-						intLetterCount = 1;
-						
-						//Checking to see if they have the secret user name. If so, +2 pts
-						if(strName.equalsIgnoreCase("statitan")){
+					while(chrPlay != 'Y' && chrPlay != 'y' && chrPlay != 'N' && chrPlay != 'n' && intLives == 0){
+						if(chrPlay == 'Y' || chrPlay == 'y' && intRound <= intWordCount){
 							con.clear();
-							con.println("You get 2 extra points");
-							intPoints = intPoints + 2;
-							System.out.println(intPoints);
+							con.println("You have chosen to play again.");
+							con.println("Picking new word...");
 							con.sleep(2000);
-						}		
-						
-						//Printing player stats to screoboard
-						TextOutputFile Scoreboard = new TextOutputFile("Scoreboard.txt", true);
-							Scoreboard.println(strName);
-							Scoreboard.println(intPoints);
+							con.clear();
+							boolGameplay = true;
+							intLives = 6;
+							intLetterCount = 1;
 							
-						//Closing file
-						Scoreboard.close();
 						
-						//Bringing user back to home screen and resetting everything	
-						chrChoice = 'b';
-												
-						//Paiting over to remove image
-						con.drawImage(imgBlack, -10, 0);
-						
+							//Paiting over to remove image
+							con.drawImage(imgBlack, -10, 0);
+							
+							//Drawing image
+							con.drawImage(imgGallow, 0, 11);						
+							
+						//If the user does not want to play, they are sent back to home screen
+						}else if(chrPlay == 'N' || chrPlay == 'n' || intRound > intWordCount){
+							con.clear();
+							chrChoice = 'b';
+							boolRunning = true;
+							boolGameplay = false;
+							intLives = 6;
+							intLetterCount = 1;
+							
+							//Checking to see if they have the secret user name. If so, +2 pts
+							if(strName.equalsIgnoreCase("statitan")){
+								con.clear();
+								con.println("You get 2 extra points");
+								intPoints = intPoints + 2;
+								System.out.println(intPoints);
+								con.sleep(2000);
+							}		
+							
+							//Printing player stats to screoboard
+							TextOutputFile Scoreboard = new TextOutputFile("Scoreboard.txt", true);
+								Scoreboard.println(strName);
+								Scoreboard.println(intPoints);
+								
+							//Closing file
+							Scoreboard.close();
+							
+							//Bringing user back to home screen and resetting everything	
+							chrChoice = 'b';
+													
+							//Paiting over to remove image
+							con.drawImage(imgBlack, -10, 0);
+							
+						}
 					}			
 				}
 			}
