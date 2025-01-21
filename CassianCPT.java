@@ -586,8 +586,8 @@ public class CassianCPT {
 				
 				//Get the length of the file and open file
 				intScoreboardLength = CPTTools.lengthTxt("Scoreboard.txt");
-				TextInputFile score = new TextInputFile("Scoreboard.txt");
-								
+				TextInputFile score = new TextInputFile("Scoreboard.txt");		
+				
 				//Divide by 2 because 1 score has 2 records in the file (name and points)
 				intScoreboardLength = intScoreboardLength/2;
 				
