@@ -309,9 +309,14 @@ public class CassianCPT {
 				//Keep looping until user wants to quit or until end of txt file
 				while(boolGameplay == true){
 					
+					//Making intNextWord = 0 if user reaches end of the txt file 
+					if(intNextWord == intWordCount){
+						intNextWord = 0;						
+					}
+			
 					//Getting the word
 					System.out.println("Picked word: "+strWord[intNextWord][0]);
-					strGuessWord = strWord[intRound][0];
+					strGuessWord = strWord[intNextWord][0];
 					
 					//Asking user for guess
 					con.clear();
@@ -496,7 +501,7 @@ public class CassianCPT {
 							con.drawImage(imgGallow, 0, 115);						
 							
 						//If the user does not want to play, they are sent back to home screen
-						}else if(chrPlay == 'N' || chrPlay == 'n' || intRound > intWordCount){
+						}else if(chrPlay == 'N' || chrPlay == 'n' || intRound > intLength){
 							con.clear();
 							chrChoice = 'b';
 							boolRunning = true;
@@ -533,10 +538,7 @@ public class CassianCPT {
 						}
 					}
 					
-					//Making intNextWord = 0 if user reaches end of the txt file 
-					if(intNextWord >= intLength - 1){
-						intNextWord = 0;						
-					}
+					
 				}
 			}
 			
