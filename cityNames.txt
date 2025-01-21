@@ -17,3 +17,5 @@ blackpool
 sudbury
 detroit
 beijing
+buffalo
+manchester
